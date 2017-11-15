@@ -17,8 +17,8 @@ const Spotify = {
         
         if (urlAccessToken && urlAccessTokenExpire){
             // Set values 
-            userAccessToken = urlAccessToken;
-            userAccessTokenExpire = urlAccessTokenExpire;
+            userAccessToken = urlAccessToken[1];
+            userAccessTokenExpire = urlAccessTokenExpire[1];
             // Clear parameter from URL after token has expired
             window.setTimeout(() => userAccessToken = '', userAccessTokenExpire * 1000);
             window.history.pushState('Access Token', null, '/');
@@ -29,19 +29,16 @@ const Spotify = {
     },
     
     search(term){
-        let spotifyEndpoint = `https://api.spotify.com/v1/search?type=track&q=${term}`;
-        return fetch(spotifyEndpoint, {
+        const spotifySearch = `https://api.spotify.com/v1/search?type=track&q=${term}`;
+        return fetch(spotifySearch, {
             headers: {
                 Authorization: `Bearer ${userAccessToken}`
                 }
         })
-        // Convert response to JSON
         .then(response => response.json())
         .then(jsonResponse => {
-            // If not tracks return empty array
-            if (!jsonResponse.track) return [];
-            // Return track id, name, artists, album, and uri
-            return jsonResponse.track.items.map(track => {
+            if (!jsonResponse.tracks) return [];
+            return jsonResponse.tracks.items.map(track => {
             return {
                id: track.id,
                name: track.name,
@@ -53,50 +50,46 @@ const Spotify = {
         });
     },
     
-    savePlaylist(playlistName, trackURIs){
-        // Check if name and track URI are available
-        if (!playlistName || !trackURIs) {
-            return;
-        }
-        // Default variables
-        let accessToken = 'https://api.spotify.com/v1/me';
-        let headers = {
-            Authorization: `Bearer ${accessToken}`
-            };
-        let userID = undefined;
-        let playlistID = undefined;
-        // Return spotify username
-        return fetch(spotifyURL, {
-            headers: headers
-            })
-        // Create playlist
-        .then(response => response.json())
-        .then(jsonResponse => userID = jsonResponse.id )
-        .then(() => {
-              const makePlaylistURL = `https://api.spotify.com/v1/users/${userID}/playlists/`;
-              fetch(makePlaylistURL, {
-                headers: headers,
-                method: 'POST',
-                body: JSON.stringify({
-                    name: playlistName
-                })
-              });
+   savePlaylist(name, trackURIs) {
+   if (!name || !trackURIs) return;
+    const userURL = 'https://api.spotify.com/v1/me';
+    const headers = {
+      Authorization: `Bearer ${userAccessToken}`
+    };
+    let userID = undefined;
+    let playlistID = undefined;
+    fetch(userURL, {
+      headers: headers 
+    })
+   .then(response => response.json())
+    .then(jsonResponse => userID = jsonResponse.id)
+    .then(() => {
+      const makePlaylistUrl = `https://api.spotify.com/v1/users/${userID}/playlists`;
+      fetch(makePlaylistUrl, {
+          method: 'POST',
+         headers: headers,
+          body: JSON.stringify({
+           name: name
+         })
         })
-        // Add playlist 
-        .then(response => response.json())
+       .then(response => response.json())
         .then(jsonResponse => playlistID = jsonResponse.id)
         .then(() => {
-            const addPlaylistURL = `https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`;
-            fetch (addPlaylistURL, {
-                headers: headers,
-                method: 'POST',
-                body: JSON.stringify({
-                    uris: trackURIs
-                })
-            });
+         const addPlaylistURL = `https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`;
+          fetch(addPlaylistURL, {
+            method: 'POST',
+            headers: headers,
+           body: JSON.stringify({
+             uris: trackURIs
+            })
+         });
         });
-    }
-    
+    });
+ }
+ 
+ 
 };
+    
+
 
 export default Spotify;
