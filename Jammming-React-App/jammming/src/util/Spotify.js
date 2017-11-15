@@ -1,7 +1,7 @@
 let userAccessToken = undefined;
 let userAccessTokenExpire = undefined;
 let clientID = '875cadc94aa5452b86650aa2b3270d52';
-let redirectURI = 'http://localhost:3000/';
+let redirectURI = 'http://scottJAM.surge.sh/';
 let spotifyURL = `https://accounts.spotify.com/authorize?response_type=token&scope=playlist-modify-public&client_id=${clientID}&redirect_uri=${redirectURI}`;
 
 const Spotify = {
