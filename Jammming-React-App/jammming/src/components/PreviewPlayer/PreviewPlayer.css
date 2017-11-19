@@ -1,0 +1,11 @@
+.PreviewPlayer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4.33rem;
+}
+
+.PreviewPlayer video {
+  width:600px;
+  height:50px;
+}

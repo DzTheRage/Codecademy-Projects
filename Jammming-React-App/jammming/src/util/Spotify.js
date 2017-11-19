@@ -1,7 +1,7 @@
 let userAccessToken = undefined;
 let userAccessTokenExpire = undefined;
 let clientID = '875cadc94aa5452b86650aa2b3270d52';
-let redirectURI = 'http://scottJAM.surge.sh/';
+let redirectURI = 'http://localhost:3000/';
 let spotifyURL = `https://accounts.spotify.com/authorize?response_type=token&scope=playlist-modify-public&client_id=${clientID}&redirect_uri=${redirectURI}`;
 
 const Spotify = {
@@ -45,6 +45,7 @@ const Spotify = {
                artist: track.artists[0].name,
                album: track.album.name,
                uri: track.uri,
+               preview: track.preview_url,
                     };
                });
         });
@@ -56,8 +57,8 @@ const Spotify = {
     const headers = {
       Authorization: `Bearer ${userAccessToken}`
     };
-    let userID = undefined;
-    let playlistID = undefined;
+    let userID;
+    let playlistID;
     fetch(userURL, {
       headers: headers 
     })

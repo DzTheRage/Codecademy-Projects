@@ -32,3 +32,15 @@
   font-weight: 300;
   color: rgba(256, 256, 256, 0.8);
 }
+
+.PreviewLink{
+  text-decoration:none;
+  color: rgba(265, 265, 265, 1);
+  padding-left:10px;
+}
+
+.PreviewLink:hover {
+  color: rgba(265, 265, 265, .5);
+  cursor: pointer;
+}
+
