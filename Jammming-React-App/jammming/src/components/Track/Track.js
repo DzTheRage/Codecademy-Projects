@@ -19,7 +19,7 @@ class Track extends React.Component {
     }
     
     previewTrack(){
-        this.props.onPreview(this.props.track.name, this.props.track.artist, this.props.track.preview);
+        this.props.onPreview(this.props.track.name, this.props.track.artist, this.props.track.preview, this.props.track.image);
     }
     
     render(){

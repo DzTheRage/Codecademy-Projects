@@ -5,11 +5,13 @@ class PreviewPlayer extends React.Component {
     
     render(){
         return(
-    <div className="PreviewPlayer">
-        <h3>Playing: {this.props.previewName} {this.props.previewArtist}</h3>
-        <video src={this.props.previewSrc} controls autoPlay type="audio/mpeg"/>
-        {console.log(this.props.previewName)}
-    </div>
+        <div className="PreviewPlayer">
+                <div className="PreviewInfo">
+                    <img src={this.props.previewIMG} alt=""/>
+                    <h3>{this.props.previewName} - {this.props.previewArtist}</h3>
+                </div>
+                <video id="previewVideo" src={this.props.previewSrc} controls autoPlay type="audio/mpeg"/>
+        </div>
         );
     }
 }

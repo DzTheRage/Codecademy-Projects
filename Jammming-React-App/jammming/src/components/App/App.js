@@ -23,6 +23,7 @@ class App extends Component {
         previewName: 'Song Name',
         previewArtist: 'Artist Name',
         previewSrc: 'URL',
+        previewImgSrc: 'URL',
         playlistTracks: [],
     };
  }
@@ -44,12 +45,18 @@ removeTrack(track){
         });
 }
 
-previewTrack(name, artist, preview){
-    this.setState({
-       previewName: name,
-       previewArtist: artist,
-       previewSrc: preview,
-    });
+previewTrack(name, artist, preview, img){
+    if (preview === null) {
+        return;
+    }
+    else {
+        this.setState({
+           previewName: name,
+           previewArtist: artist,
+           previewSrc: preview,
+           previewImgSrc: img,
+        });
+    }
 }
 
 updatePlaylistName(name){
@@ -79,20 +86,17 @@ search(searchTerm){
     
 render() {
     return (
-    <div>
+    <div className="FullApp">
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
             <SearchBar onSearch={this.search}/>
-            <PreviewPlayer />
             <div className="App-playlist">
               <SearchResults onPreview={this.previewTrack} onAdd={this.addTrack} searchResults={this.state.searchResults}/>
-              <PlayList playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks}
-               onRemove={this.removeTrack} onNameChange={this.updatePlaylistName} onSave={this.savePlaylist}/>
+              <PlayList onPreview={this.previewTrack} playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks}
+               onRemove={this.removeTrack} onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} />
             </div>
         </div>
-        {console.log(this.state.previewName)}
-        {console.log(this.state.previewArtist)}
-        {console.log(this.state.previewSrc)}
+        <PreviewPlayer previewName={this.state.previewName} previewArtist={this.state.previewArtist} previewSrc={this.state.previewSrc}  previewIMG={this.state.previewImgSrc}/>
     </div>
     );
   }

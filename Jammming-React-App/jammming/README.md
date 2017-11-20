@@ -17,7 +17,7 @@ The app will request song data about the user's input from the Spotify library (
 
 ## New features implemented
 
-* Coming soon!
+* Preview player component that allows users to preview 30s of the selected track.
 
 ## Built With
 

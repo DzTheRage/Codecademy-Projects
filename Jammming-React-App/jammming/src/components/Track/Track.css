@@ -42,5 +42,6 @@
 .PreviewLink:hover {
   color: rgba(265, 265, 265, .5);
   cursor: pointer;
+  transition: color .25s;
 }
 
